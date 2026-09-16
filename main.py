@@ -1,14 +1,3 @@
-import streamlit as st
-from datetime import date
-
-# 페이지 설정
-st.set_page_config(
-    page_title="오늘 뭐 먹지? 🍴",
-    page_icon="🍀",
-    layout="centered"
-)
-
-# 기분별 음식 목록
 food_data = {
     "😊 행복해": [
         ("치킨 🍗", "오늘의 행복을 더 크게 만들어줄 바삭한 치킨!"),
@@ -30,8 +19,8 @@ food_data = {
 
     "😤 짜증나": [
         ("매운 떡볶이 🌶️", "오늘의 짜증을 맛있는 매콤함으로 날려보자!"),
-        ("치즈 돈까스 🧀", "바삭한 돈까스와 쭉 늘어나는 치즈로 기분 전환!"),
-        ("닭강정 🍗", "달콤바삭한 닭강정으로 짜증나는 하루를 조금 잊어보자!")
+        ("치즈 돈까스 🧀", "바삭한 돈까스와 치즈로 기분 전환!"),
+        ("닭강정 🍗", "달콤바삭한 닭강정으로 짜증나는 하루를 잠깐 잊어보자!")
     ],
 
     "😔 억울해": [
@@ -56,107 +45,47 @@ food_data = {
         ("비빔밥 🥗", "오늘처럼 평범한 날에는 든든하고 맛있는 비빔밥!"),
         ("파스타 🍝", "부담 없이 즐기기 좋은 맛있는 파스타!"),
         ("김밥 🍙", "간단하지만 맛있는 국민 메뉴 김밥!")
+    ],
+
+    "💗 설레": [
+        ("딸기 케이크 🍰", "설레는 기분에는 보기만 해도 기분 좋아지는 달콤한 디저트!"),
+        ("파스타 🍝", "특별한 날처럼 느껴지는 오늘, 분위기 있게 파스타를 먹어보자!"),
+        ("와플 🧇", "달콤한 와플과 함께 설레는 기분을 즐겨보자!")
+    ],
+
+    "😵 스트레스받아": [
+        ("치즈 피자 🍕", "맛있는 치즈 피자로 잠깐 쉬면서 기분을 풀어보자!"),
+        ("돈까스 🍱", "바삭한 돈까스를 먹으며 스트레스를 잠시 내려놓자!"),
+        ("라멘 🍜", "뜨끈한 국물 한 그릇으로 편안하게 기분 전환!")
+    ],
+
+    "🥱 졸려": [
+        ("김밥 🍙", "간단하고 맛있게 먹고 편하게 쉬어보자!"),
+        ("샌드위치 🥪", "부담 없이 먹기 좋은 간단한 오늘의 메뉴!"),
+        ("우동 🍜", "따뜻한 우동으로 든든하게 배를 채워보자!")
+    ],
+
+    "🥺 외로워": [
+        ("삼겹살 🥓", "친구와 함께 구워 먹으면서 이야기를 나누기 좋은 음식!"),
+        ("치킨 🍗", "혼자 먹어도 좋고 친구와 나눠 먹으면 더 맛있는 치킨!"),
+        ("떡볶이 🌶️", "친구와 함께 먹으면 더 즐거운 국민 간식!")
+    ],
+
+    "🤤 배고파": [
+        ("제육덮밥 🍚", "배고플 때 든든하게 한 그릇 먹기 좋은 메뉴!"),
+        ("햄버거 🍔", "배고픈 날에는 푸짐한 햄버거로 든든하게!"),
+        ("김치볶음밥 🍳", "간단하지만 든든하게 배를 채울 수 있는 메뉴!")
+    ],
+
+    "🥱 심심해": [
+        ("마라탕 🌶️", "재료를 직접 골라 먹는 재미가 있는 마라탕!"),
+        ("초밥 🍣", "여러 종류를 골라 먹다 보면 심심할 틈이 없어요!"),
+        ("분식 세트 🍢", "떡볶이부터 튀김까지 이것저것 골라 먹어보자!")
+    ],
+
+    "😎 자신감 뿜뿜": [
+        ("스테이크 🥩", "오늘의 자신감에 어울리는 근사하고 든든한 메뉴!"),
+        ("파스타 🍝", "기분 좋은 자신감과 잘 어울리는 분위기 있는 음식!"),
+        ("햄버거 🍔", "오늘은 내가 원하는 메뉴를 당당하게 골라보자!")
     ]
 }
-
-
-# CSS
-st.markdown("""
-<style>
-.title {
-    text-align: center;
-    font-size: 42px;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-.subtitle {
-    text-align: center;
-    color: #777777;
-    font-size: 17px;
-    margin-bottom: 30px;
-}
-
-.result-card {
-    background-color: #fff9e6;
-    border: 2px solid #f1df9a;
-    border-radius: 25px;
-    padding: 30px;
-    margin-top: 25px;
-    text-align: center;
-}
-
-.food {
-    font-size: 32px;
-    font-weight: bold;
-    margin: 15px 0;
-}
-
-.reason {
-    font-size: 17px;
-    line-height: 1.7;
-    color: #555555;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
-# 제목
-st.markdown(
-    '<div class="title">🍴 오늘 뭐 먹지? 🍀</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<div class="subtitle">오늘의 기분에 딱 맞는 음식 하나를 추천해줄게!</div>',
-    unsafe_allow_html=True
-)
-
-
-# 오늘 날짜
-today = date.today()
-
-st.write("")
-st.write(
-    f"📅 오늘은 **{today.year}년 {today.month}월 {today.day}일**"
-)
-
-
-# 기분 선택
-mood = st.selectbox(
-    "💭 오늘 기분은 어때?",
-    list(food_data.keys())
-)
-
-
-# 추천 버튼
-if st.button("🍽️ 오늘의 음식 추천받기!", use_container_width=True):
-
-    foods = food_data[mood]
-
-    # 날짜 + 기분에 따라 매일 다른 음식 추천
-    day_number = today.toordinal()
-    mood_number = list(food_data.keys()).index(mood)
-
-    food_index = (day_number + mood_number) % len(foods)
-
-    food, reason = foods[food_index]
-
-    st.balloons()
-
-    st.markdown(
-        f"""
-<div class="result-card">
-<div style="font-size:50px;">🍀</div>
-<div style="font-size:18px;">오늘의 기분에 맞는 음식은...</div>
-<div class="food">{food}</div>
-<div class="reason">{reason}</div>
-<hr>
-<div>✨ 오늘도 맛있는 하루 보내자! ✨</div>
-</div>
-""",
-        unsafe_allow_html=True
-    )
-
-    st.write("")
-    st.success("💚 내일 다시 방문하면 새로운 음식이 추천돼요!")
