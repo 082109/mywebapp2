@@ -1,135 +1,72 @@
 import streamlit as st
+import random
 
 # 페이지 설정
 st.set_page_config(
-    page_title="MBTI 음식 추천",
-    page_icon="🍴",
+    page_title="성격별 개명 이름 추천",
+    page_icon="✨",
     layout="centered"
 )
 
-# MBTI별 음식 정보
-food_data = {
-    "INFP": {
-        "emoji": "🌷",
-        "food": "딸기 케이크 🍰",
-        "reason": "감성적이고 부드러운 분위기를 좋아하는 INFP에게 달콤하고 예쁜 디저트를 추천해요!",
-        "menu": "딸기 케이크 + 따뜻한 아메리카노 ☕",
-        "bg": "#FFF0F5"
-    },
-    "INFJ": {
-        "emoji": "🌙",
-        "food": "파스타 🍝",
-        "reason": "차분하게 혼자만의 시간을 즐기는 INFJ에게 여유롭게 먹기 좋은 파스타를 추천해요!",
-        "menu": "크림 파스타 + 레몬에이드 🍋",
-        "bg": "#F3E5F5"
-    },
-    "INTP": {
-        "emoji": "🔬",
-        "food": "초밥 🍣",
-        "reason": "새로운 것을 탐구하는 INTP에게 다양한 재료와 조합을 즐길 수 있는 초밥을 추천해요!",
-        "menu": "모둠 초밥 + 우동 🍜",
-        "bg": "#E3F2FD"
-    },
-    "INTJ": {
-        "emoji": "🧠",
-        "food": "스테이크 🥩",
-        "reason": "효율적이고 확실한 것을 선호하는 INTJ에게 깔끔하고 든든한 스테이크를 추천해요!",
-        "menu": "스테이크 + 샐러드 🥗",
-        "bg": "#E8EAF6"
-    },
-    "ISFP": {
-        "emoji": "🎨",
-        "food": "마카롱 🧁",
-        "reason": "감각적이고 아름다운 것을 좋아하는 ISFP에게 알록달록한 마카롱을 추천해요!",
-        "menu": "마카롱 + 아이스티 🧊",
-        "bg": "#FCE4EC"
-    },
-    "ISFJ": {
-        "emoji": "🏡",
-        "food": "김치찌개 🍲",
-        "reason": "따뜻하고 편안한 분위기를 좋아하는 ISFJ에게 집밥 느낌의 김치찌개를 추천해요!",
-        "menu": "김치찌개 + 계란말이 🥚",
-        "bg": "#FFF3E0"
-    },
-    "ISTP": {
-        "emoji": "🛹",
-        "food": "햄버거 🍔",
-        "reason": "자유롭고 실용적인 ISTP에게 간편하면서도 맛있는 햄버거를 추천해요!",
-        "menu": "치즈버거 + 감자튀김 🍟",
-        "bg": "#E0F7FA"
-    },
-    "ISTJ": {
-        "emoji": "📚",
-        "food": "돈까스 🍱",
-        "reason": "꼼꼼하고 안정적인 것을 좋아하는 ISTJ에게 든든한 돈까스를 추천해요!",
-        "menu": "등심 돈까스 + 냉모밀 🍜",
-        "bg": "#ECEFF1"
-    },
-    "ENFP": {
-        "emoji": "✨",
-        "food": "떡볶이 🌶️",
-        "reason": "활발하고 새로운 경험을 좋아하는 ENFP에게 친구들과 함께 먹기 좋은 떡볶이를 추천해요!",
-        "menu": "떡볶이 + 튀김 + 김밥 🍙",
-        "bg": "#FFF8E1"
-    },
-    "ENFJ": {
-        "emoji": "💖",
-        "food": "피자 🍕",
-        "reason": "사람들과 함께하는 것을 좋아하는 ENFJ에게 나눠 먹기 좋은 피자를 추천해요!",
-        "menu": "치즈 피자 + 콜라 🥤",
-        "bg": "#FBE9E7"
-    },
-    "ENTP": {
-        "emoji": "⚡",
-        "food": "마라탕 🌶️",
-        "reason": "새로운 것에 도전하는 ENTP에게 취향대로 재료를 고를 수 있는 마라탕을 추천해요!",
-        "menu": "마라탕 + 꿔바로우 🥢",
-        "bg": "#FFF3E0"
-    },
-    "ENTJ": {
-        "emoji": "👑",
-        "food": "스테이크 🥩",
-        "reason": "자신감 있고 목표 지향적인 ENTJ에게 든든한 스테이크를 추천해요!",
-        "menu": "채끝 스테이크 + 감자튀김 🍟",
-        "bg": "#FFF8E1"
-    },
-    "ESFP": {
-        "emoji": "🎉",
-        "food": "치킨 🍗",
-        "reason": "즐겁고 활기찬 ESFP에게 친구들과 함께 신나게 먹기 좋은 치킨을 추천해요!",
-        "menu": "후라이드 치킨 + 치즈볼 🧀",
-        "bg": "#FFFDE7"
-    },
-    "ESFJ": {
-        "emoji": "🥰",
-        "food": "삼겹살 🥓",
-        "reason": "사람들과 어울리는 것을 좋아하는 ESFJ에게 함께 구워 먹기 좋은 삼겹살을 추천해요!",
-        "menu": "삼겹살 + 된장찌개 + 볶음밥 🍚",
-        "bg": "#FBE9E7"
-    },
-    "ESTP": {
-        "emoji": "🔥",
-        "food": "닭발 🌶️",
-        "reason": "활동적이고 자극적인 경험을 좋아하는 ESTP에게 매콤한 닭발을 추천해요!",
-        "menu": "매운 닭발 + 주먹밥 🍙",
-        "bg": "#FFEBEE"
-    },
-    "ESTJ": {
-        "emoji": "📋",
-        "food": "제육볶음 🍖",
-        "reason": "현실적이고 확실한 것을 좋아하는 ESTJ에게 든든한 제육볶음을 추천해요!",
-        "menu": "제육볶음 + 계란찜 🥚",
-        "bg": "#E8F5E9"
-    }
+# 성격별 이름 데이터
+name_data = {
+    "🌸 차분하고 따뜻한 성격": [
+        ("서윤", "부드럽고 따뜻한 느낌"),
+        ("다온", "편안하고 밝은 느낌"),
+        ("하윤", "차분하면서도 친근한 느낌"),
+        ("지안", "깔끔하고 안정적인 느낌"),
+        ("유진", "부드럽고 자연스러운 느낌")
+    ],
+
+    "☀️ 밝고 활발한 성격": [
+        ("채원", "밝고 사랑스러운 느낌"),
+        ("예린", "통통 튀고 밝은 느낌"),
+        ("수빈", "친근하고 활기찬 느낌"),
+        ("민서", "깔끔하고 긍정적인 느낌"),
+        ("아린", "밝고 귀여운 느낌")
+    ],
+
+    "🎨 감성적이고 예술적인 성격": [
+        ("서아", "감성적이고 세련된 느낌"),
+        ("유나", "부드럽고 감각적인 느낌"),
+        ("소윤", "차분하면서도 감성적인 느낌"),
+        ("윤슬", "반짝이는 분위기의 느낌"),
+        ("가온", "독특하면서 자연스러운 느낌")
+    ],
+
+    "🔥 자신감 있고 당당한 성격": [
+        ("서현", "단정하고 당당한 느낌"),
+        ("지우", "깔끔하고 자신감 있는 느낌"),
+        ("수아", "세련되고 또렷한 느낌"),
+        ("하린", "밝고 당찬 느낌"),
+        ("채아", "개성 있고 자신감 있는 느낌")
+    ],
+
+    "🐰 귀엽고 친근한 성격": [
+        ("다솜", "사랑스럽고 따뜻한 느낌"),
+        ("나연", "친근하고 밝은 느낌"),
+        ("보민", "귀엽고 편안한 느낌"),
+        ("유빈", "활발하고 친근한 느낌"),
+        ("아윤", "부드럽고 귀여운 느낌")
+    ],
+
+    "🌙 조용하고 신비로운 성격": [
+        ("시은", "차분하고 신비로운 느낌"),
+        ("은서", "부드럽고 조용한 느낌"),
+        ("서린", "맑고 세련된 느낌"),
+        ("유림", "차분하고 단정한 느낌"),
+        ("다인", "깔끔하고 은은한 느낌")
+    ]
 }
 
 
 # CSS
 st.markdown("""
 <style>
+
 .title {
     text-align: center;
-    font-size: 42px;
+    font-size: 40px;
     font-weight: bold;
     margin-top: 20px;
 }
@@ -141,90 +78,100 @@ st.markdown("""
     margin-bottom: 30px;
 }
 
-.result {
-    padding: 30px;
+.result-card {
+    background-color: #fff7fb;
+    border: 2px solid #f3dce8;
     border-radius: 25px;
+    padding: 25px;
+    margin-top: 20px;
     text-align: center;
-    margin-top: 25px;
-    border: 2px solid #eeeeee;
 }
 
-.emoji {
-    font-size: 55px;
+.name-box {
+    background-color: white;
+    border-radius: 18px;
+    padding: 18px;
+    margin: 12px 0;
+    border: 1px solid #eeeeee;
 }
 
-.mbti {
-    font-size: 18px;
-    color: #666666;
-    margin-top: 10px;
-}
-
-.food {
-    font-size: 32px;
+.name {
+    font-size: 27px;
     font-weight: bold;
-    margin: 15px 0;
 }
 
-.reason {
-    font-size: 17px;
-    line-height: 1.7;
+.meaning {
+    color: #777777;
+    margin-top: 5px;
 }
 
-.menu {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1.6;
-}
 </style>
 """, unsafe_allow_html=True)
 
 
 # 제목
 st.markdown(
-    '<div class="title">🍴 MBTI 음식 추천 🍴</div>',
+    '<div class="title">✨ 성격별 개명 이름 추천 ✨</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="subtitle">나의 MBTI와 어울리는 음식을 찾아보자! 💕</div>',
+    '<div class="subtitle">내 성격과 어울리는 새로운 이름을 찾아보자! 💕</div>',
     unsafe_allow_html=True
 )
 
 
-# MBTI 선택
-mbti = st.selectbox(
-    "💭 나의 MBTI를 선택해주세요!",
-    list(food_data.keys())
+# 성격 선택
+personality = st.selectbox(
+    "🌷 친구의 성격을 골라주세요!",
+    list(name_data.keys())
 )
 
 
 # 추천 버튼
-if st.button("🍽️ 음식 추천받기!", use_container_width=True):
+if st.button("✨ 이름 추천받기!", use_container_width=True):
 
-    data = food_data[mbti]
+    # 선택한 성격의 이름 중 3개 랜덤 추천
+    recommendations = random.sample(
+        name_data[personality],
+        3
+    )
 
     st.balloons()
 
-    # 중요: HTML을 들여쓰기하지 않음
-    result_html = f"""
-<div class="result" style="background-color: {data['bg']};">
-<div class="emoji">{data['emoji']}</div>
-<div class="mbti">{mbti} 유형에게 어울리는 음식은?</div>
-<div class="food">{data['food']}</div>
-<div class="reason">{data['reason']}</div>
-<hr>
-<div class="menu">
-🍽️ 추천 조합<br>
-{data['menu']}
-</div>
-</div>
-"""
+    st.markdown(
+        '<div class="result-card">',
+        unsafe_allow_html=True
+    )
 
-    st.markdown(result_html, unsafe_allow_html=True)
+    st.markdown(
+        f"### 💌 이런 이름은 어때요?",
+        unsafe_allow_html=True
+    )
+
+    st.write(f"선택한 성격 : **{personality}**")
+
+    for i, (name, meaning) in enumerate(recommendations, 1):
+
+        st.markdown(
+            f"""
+<div class="name-box">
+<div style="font-size:15px;">추천 {i}</div>
+<div class="name">{name} ✨</div>
+<div class="meaning">{meaning}</div>
+</div>
+""",
+            unsafe_allow_html=True
+        )
+
+    st.markdown(
+        '</div>',
+        unsafe_allow_html=True
+    )
 
     st.write("")
 
     st.info(
-        "💡 MBTI 음식 추천은 재미로 즐겨주세요! "
-        "내가 좋아하는 음식이 가장 맛있는 음식이에요 😋"
+        "💡 이름은 성격만으로 정해지는 것은 아니에요! "
+        "이름의 뜻, 발음, 가족의 의견 등을 함께 생각해보세요 😊"
     )
