@@ -2,139 +2,123 @@ import streamlit as st
 
 # 페이지 설정
 st.set_page_config(
-    page_title="MBTI 여행지 추천 🌈",
-    page_icon="✈️",
+    page_title="MBTI 음식 추천 🍴",
+    page_icon="🍕",
     layout="centered"
 )
 
-# 여행지 데이터
-travel_data = {
+# MBTI별 음식 데이터
+food_data = {
     "INFP": {
-        "emoji": "🌿",
-        "type": "감성 여행자",
-        "place": "스위스 인터라켄 🇨🇭",
-        "description": "조용한 자연 속에서 여유롭게 생각을 정리하고 감성을 충전하기 좋은 곳!",
-        "spots": ["호수 산책 🌊", "알프스 풍경 🏔️", "예쁜 카페 ☕"],
-        "color": "#E8F5E9"
+        "emoji": "🌷",
+        "food": "딸기 케이크 🍰",
+        "reason": "감성적이고 부드러운 분위기를 좋아하는 INFP에게 달콤하고 예쁜 디저트가 잘 어울려요!",
+        "menu": "딸기 케이크 + 따뜻한 아메리카노 ☕",
+        "color": "#FFF0F5"
     },
     "INFJ": {
         "emoji": "🌙",
-        "type": "힐링 여행자",
-        "place": "일본 교토 🇯🇵",
-        "description": "고즈넉한 골목과 사찰을 천천히 둘러보며 마음의 여유를 찾기 좋은 곳!",
-        "spots": ["아라시야마 🎋", "전통 거리 🏮", "조용한 카페 🍵"],
+        "food": "파스타 🍝",
+        "reason": "차분하게 혼자만의 시간을 즐기는 INFJ에게 여유롭게 먹기 좋은 파스타를 추천해요!",
+        "menu": "크림 파스타 + 레몬에이드 🍋",
         "color": "#F3E5F5"
     },
     "INTP": {
-        "emoji": "🔭",
-        "type": "탐험하는 여행자",
-        "place": "영국 런던 🇬🇧",
-        "description": "새로운 지식과 독특한 문화를 발견하는 재미가 가득한 도시!",
-        "spots": ["박물관 🏛️", "서점 📚", "과학관 🔬"],
+        "emoji": "🔬",
+        "food": "초밥 🍣",
+        "reason": "새로운 것을 탐구하는 INTP에게 다양한 재료와 조합을 즐길 수 있는 초밥이 잘 어울려요!",
+        "menu": "모둠 초밥 + 우동 🍜",
         "color": "#E3F2FD"
     },
     "INTJ": {
         "emoji": "🧠",
-        "type": "계획형 여행자",
-        "place": "스위스 취리히 🇨🇭",
-        "description": "깔끔한 도시와 효율적인 교통을 즐기며 알찬 여행을 계획하기 좋은 곳!",
-        "spots": ["구시가지 🏘️", "호수 🚤", "미술관 🎨"],
+        "food": "스테이크 🥩",
+        "reason": "효율적이고 확실한 것을 선호하는 INTJ에게 깔끔하고 든든한 스테이크를 추천해요!",
+        "menu": "스테이크 + 샐러드 🥗",
         "color": "#E8EAF6"
     },
     "ISFP": {
         "emoji": "🎨",
-        "type": "감각적인 여행자",
-        "place": "이탈리아 피렌체 🇮🇹",
-        "description": "아름다운 예술과 맛있는 음식, 따뜻한 분위기를 느끼기 좋은 도시!",
-        "spots": ["미술관 🖼️", "두오모 ⛪", "젤라또 🍦"],
-        "color": "#FFF3E0"
+        "food": "마카롱 🧁",
+        "reason": "감각적이고 아름다운 것을 좋아하는 ISFP에게 알록달록하고 예쁜 마카롱이 잘 어울려요!",
+        "menu": "마카롱 + 아이스티 🧊",
+        "color": "#FCE4EC"
     },
     "ISFJ": {
         "emoji": "🏡",
-        "type": "편안한 여행자",
-        "place": "일본 오사카 🇯🇵",
-        "description": "편안한 분위기 속에서 맛있는 음식과 다양한 볼거리를 즐길 수 있는 곳!",
-        "spots": ["도톤보리 🍜", "오사카성 🏯", "시장 🥢"],
-        "color": "#FFF8E1"
+        "food": "김치찌개 🍲",
+        "reason": "따뜻하고 편안한 분위기를 좋아하는 ISFJ에게 익숙하고 든든한 집밥 느낌의 음식이 잘 어울려요!",
+        "menu": "김치찌개 + 계란말이 🥚",
+        "color": "#FFF3E0"
     },
     "ISTP": {
-        "emoji": "🏄",
-        "type": "자유로운 여행자",
-        "place": "호주 골드코스트 🇦🇺",
-        "description": "바다와 액티비티를 마음껏 즐기며 자유로운 여행을 하기 좋은 곳!",
-        "spots": ["서핑 🏄", "해변 🏖️", "테마파크 🎢"],
+        "emoji": "🛹",
+        "food": "햄버거 🍔",
+        "reason": "자유롭고 실용적인 ISTP에게 간편하면서도 맛있게 즐길 수 있는 햄버거를 추천해요!",
+        "menu": "치즈버거 + 감자튀김 🍟",
         "color": "#E0F7FA"
     },
     "ISTJ": {
-        "emoji": "🗺️",
-        "type": "꼼꼼한 여행자",
-        "place": "싱가포르 🇸🇬",
-        "description": "깔끔하고 체계적인 도시에서 계획대로 알차게 여행하기 좋은 곳!",
-        "spots": ["마리나베이 🌃", "가든스 바이 더 베이 🌳", "야시장 🍴"],
+        "emoji": "📚",
+        "food": "돈까스 🍱",
+        "reason": "꼼꼼하고 안정적인 것을 좋아하는 ISTJ에게 익숙하면서도 든든한 돈까스를 추천해요!",
+        "menu": "등심 돈까스 + 냉모밀 🍜",
         "color": "#ECEFF1"
     },
     "ENFP": {
         "emoji": "✨",
-        "type": "신나는 여행자",
-        "place": "미국 뉴욕 🇺🇸",
-        "description": "새로운 사람과 문화, 재미있는 경험을 끊임없이 만날 수 있는 도시!",
-        "spots": ["타임스스퀘어 🌃", "센트럴파크 🌳", "브로드웨이 🎭"],
-        "color": "#FFF0F5"
+        "food": "떡볶이 🌶️",
+        "reason": "활발하고 새로운 경험을 좋아하는 ENFP에게 친구들과 함께 즐기기 좋은 떡볶이를 추천해요!",
+        "menu": "떡볶이 + 튀김 + 김밥 🍙",
+        "color": "#FFF8E1"
     },
     "ENFJ": {
         "emoji": "💖",
-        "type": "함께하는 여행자",
-        "place": "프랑스 파리 🇫🇷",
-        "description": "친구나 가족과 함께 아름다운 풍경과 문화를 즐기기 좋은 낭만적인 도시!",
-        "spots": ["에펠탑 🗼", "센강 🌊", "카페 ☕"],
-        "color": "#FCE4EC"
+        "food": "피자 🍕",
+        "reason": "사람들과 함께하는 것을 좋아하는 ENFJ에게 여러 명이 나눠 먹기 좋은 피자가 잘 어울려요!",
+        "menu": "치즈 피자 + 콜라 🥤",
+        "color": "#FBE9E7"
     },
     "ENTP": {
         "emoji": "⚡",
-        "type": "도전하는 여행자",
-        "place": "미국 라스베이거스 🇺🇸",
-        "description": "평범한 여행보다 새롭고 자극적인 경험을 좋아한다면 딱 맞는 곳!",
-        "spots": ["화려한 거리 ✨", "공연 🎤", "그랜드캐니언 🏜️"],
+        "food": "마라탕 🌶️",
+        "reason": "새로운 것에 도전하는 ENTP에게 취향대로 재료를 골라 먹는 마라탕을 추천해요!",
+        "menu": "마라탕 + 꿔바로우 🥢",
         "color": "#FFF3E0"
     },
     "ENTJ": {
         "emoji": "👑",
-        "type": "리더 여행자",
-        "place": "아랍에미리트 두바이 🇦🇪",
-        "description": "화려한 건축물과 다양한 경험을 빠르게 즐길 수 있는 도시!",
-        "spots": ["부르즈 할리파 🏙️", "두바이몰 🛍️", "사막 투어 🏜️"],
+        "food": "스테이크 🥩",
+        "reason": "자신감 있고 목표 지향적인 ENTJ에게 든든하고 만족감 있는 스테이크를 추천해요!",
+        "menu": "채끝 스테이크 + 감자튀김 🍟",
         "color": "#FFF8E1"
     },
     "ESFP": {
         "emoji": "🎉",
-        "type": "즐거운 여행자",
-        "place": "스페인 바르셀로나 🇪🇸",
-        "description": "맛있는 음식과 음악, 아름다운 건축물을 신나게 즐길 수 있는 곳!",
-        "spots": ["사그라다 파밀리아 ⛪", "해변 🏖️", "타파스 🍴"],
+        "food": "치킨 🍗",
+        "reason": "즐겁고 활기찬 ESFP에게 친구들과 함께 신나게 먹기 좋은 치킨을 추천해요!",
+        "menu": "후라이드 치킨 + 치즈볼 🧀",
         "color": "#FFFDE7"
     },
     "ESFJ": {
         "emoji": "🥰",
-        "type": "사교적인 여행자",
-        "place": "태국 방콕 🇹🇭",
-        "description": "맛있는 음식과 활기찬 거리에서 사람들과 즐거운 시간을 보내기 좋은 곳!",
-        "spots": ["야시장 🌙", "사원 🛕", "길거리 음식 🍜"],
+        "food": "삼겹살 🥓",
+        "reason": "사람들과 어울리는 것을 좋아하는 ESFJ에게 함께 구워 먹으며 대화하기 좋은 삼겹살이 잘 어울려요!",
+        "menu": "삼겹살 + 된장찌개 + 볶음밥 🍚",
         "color": "#FBE9E7"
     },
     "ESTP": {
         "emoji": "🔥",
-        "type": "액티비티 여행자",
-        "place": "미국 하와이 🇺🇸",
-        "description": "답답한 일상에서 벗어나 바다와 다양한 활동을 즐기기 좋은 곳!",
-        "spots": ["스노클링 🤿", "해변 🏖️", "하이킹 🥾"],
-        "color": "#E0F2F1"
+        "food": "닭발 🌶️",
+        "reason": "활동적이고 자극적인 경험을 좋아하는 ESTP에게 매콤하고 강렬한 닭발을 추천해요!",
+        "menu": "매운 닭발 + 주먹밥 🍙",
+        "color": "#FFEBEE"
     },
     "ESTJ": {
         "emoji": "📋",
-        "type": "알찬 여행자",
-        "place": "대한민국 서울 🇰🇷",
-        "description": "맛집부터 쇼핑, 문화생활까지 다양한 활동을 효율적으로 즐길 수 있는 도시!",
-        "spots": ["한강 🌉", "성수동 ☕", "궁궐 🏯"],
+        "food": "제육볶음 🍖",
+        "reason": "현실적이고 확실한 것을 좋아하는 ESTJ에게 든든하고 익숙한 제육볶음을 추천해요!",
+        "menu": "제육볶음 + 계란찜 🥚",
         "color": "#E8F5E9"
     }
 }
@@ -142,14 +126,11 @@ travel_data = {
 # CSS
 st.markdown("""
 <style>
-    .main {
-        background-color: #FFF9FC;
-    }
-
     .title {
         text-align: center;
         font-size: 42px;
         font-weight: bold;
+        margin-top: 10px;
         margin-bottom: 5px;
     }
 
@@ -161,71 +142,96 @@ st.markdown("""
     }
 
     .result {
-        padding: 25px;
+        padding: 30px;
         border-radius: 25px;
         text-align: center;
-        margin-top: 20px;
+        margin-top: 25px;
         border: 2px solid #eeeeee;
     }
 
-    .place {
-        font-size: 30px;
+    .food {
+        font-size: 32px;
         font-weight: bold;
-        margin: 12px 0;
+        margin: 15px 0;
     }
 
-    .description {
+    .reason {
         font-size: 17px;
         line-height: 1.7;
     }
 
-    .spot {
-        font-size: 16px;
-        padding: 8px;
+    .menu {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 15px;
     }
 </style>
 """, unsafe_allow_html=True)
 
+
 # 제목
-st.markdown('<div class="title">✈️ MBTI 여행지 추천 🌈</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="subtitle">나의 MBTI와 찰떡궁합인 여행지를 찾아보자! 🧳</div>',
+    '<div class="title">🍴 MBTI 음식 추천 🍴</div>',
     unsafe_allow_html=True
 )
 
-# MBTI 선택
-mbti_list = list(travel_data.keys())
-
-mbti = st.selectbox(
-    "🧡 나의 MBTI를 선택해주세요!",
-    mbti_list
+st.markdown(
+    '<div class="subtitle">나의 MBTI와 찰떡궁합인 음식을 찾아보자! 💕</div>',
+    unsafe_allow_html=True
 )
 
+
+# MBTI 선택
+mbti = st.selectbox(
+    "💭 나의 MBTI를 선택해주세요!",
+    list(food_data.keys())
+)
+
+
 # 추천 버튼
-if st.button("🌟 여행지 추천받기!", use_container_width=True):
+if st.button("🍽️ 음식 추천받기!", use_container_width=True):
 
-    data = travel_data[mbti]
+    data = food_data[mbti]
 
+    # 풍선 효과
     st.balloons()
 
+    # 결과 출력
     st.markdown(
         f"""
         <div class="result" style="background-color:{data['color']}">
-            <div style="font-size:55px;">{data['emoji']}</div>
-            <div style="font-size:20px;">{mbti} · {data['type']}</div>
-            <div class="place">{data['place']}</div>
-            <div class="description">{data['description']}</div>
+
+            <div style="font-size:55px;">
+                {data['emoji']}
+            </div>
+
+            <div style="font-size:20px;">
+                {mbti} 유형에게 어울리는 음식은...
+            </div>
+
+            <div class="food">
+                {data['food']}
+            </div>
+
+            <div class="reason">
+                {data['reason']}
+            </div>
+
             <hr>
-            <div style="font-size:20px; font-weight:bold;">
-                🌷 추천 코스
+
+            <div class="menu">
+                🍽️ 추천 조합<br><br>
+                {data['menu']}
             </div>
-            <div class="spot">
-                {'　'.join(data['spots'])}
-            </div>
+
         </div>
         """,
         unsafe_allow_html=True
     )
 
     st.write("")
-    st.info("💡 MBTI는 재미로 참고하고, 실제 여행 계획은 취향과 상황을 함께 고려해보세요!")
+
+    st.info(
+        "💡 MBTI 음식 추천은 재미로 즐겨주세요! "
+        "실제로는 자신이 좋아하는 음식이 가장 맛있는 음식이에요 😋"
+    )
